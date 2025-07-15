@@ -1,61 +1,201 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BVI Company Formation Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A robust Laravel 11 backend API for BVI company formation applications with auto-save functionality, comprehensive validation, and real-time form management.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   **Laravel 11** - Latest framework with PHP 8.2+ support
+-   **RESTful API** - Clean API design with proper HTTP methods
+-   **Auto-save Functionality** - Real-time form data persistence
+-   **Comprehensive Validation** - Multi-step form validation with custom rules
+-   **Session Management** - Form session tracking and cleanup (clean-up is todo)
+-   **Reference Numbers** - Unique tracking for each application
+-   **Status Tracking** - Application lifecycle management
+-   **Error Handling** - Proper error responses and logging
+-   **Database Migrations** - Structured database schema
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **PHP 8.2+** (Required for Laravel 11)
+-   **Composer 2.0+**
+-   **MySQL 8.0+ / PostgreSQL 13+ / SQLite 3.35+**
 
-## Learning Laravel
+## 🛠️ Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Clone and Setup
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+\`\`\`bash
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Install PHP dependencies
 
-## Laravel Sponsors
+composer install
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Copy environment file
 
-### Premium Partners
+cp .env.example .env
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Generate application key
 
-## Contributing
+php artisan key:generate
+\`\`\`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. Database Configuration
 
-## Code of Conduct
+Edit `.env` file with your database credentials:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+\`\`\`env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=bvi_company_formation
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+\`\`\`
 
-## Security Vulnerabilities
+### 3. Database Setup
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+\`\`\`bash
 
-## License
+# Run migrations
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+php artisan migrate
+
+# (Optional) Seed with sample data
+
+php artisan db:seed
+\`\`\`
+
+### 4. Start Development Server
+
+\`\`\`bash
+
+# Start Laravel development server
+
+php artisan serve
+
+# API will be available at: http://localhost:8000
+
+\`\`\`
+
+## 📡 API Endpoints
+
+### Base URL: `http://localhost:8000/api/v1`
+
+### Company Formation
+
+| Method | Endpoint                                      | Description                 |
+| ------ | --------------------------------------------- | --------------------------- |
+| `POST` | `/company-formation`                          | Submit complete application |
+| `POST` | `/company-formation/auto-save`                | Auto-save form data         |
+| `GET`  | `/company-formation/form-data`                | Get saved form data         |
+| `GET`  | `/company-formation/status/{referenceNumber}` | Get application status      |
+
+### Health Check
+
+| Method | Endpoint  | Description                        |
+| ------ | --------- | ---------------------------------- |
+| `GET`  | `/health` | API health check with version info |
+
+## 📝 API Usage Examples
+
+### 1. Submit Complete Application
+
+\`\`\`bash
+curl -X POST http://localhost:8000/api/v1/company-formation \
+ -H "Content-Type: application/json" \
+ -H "Accept: application/json" \
+ -d '{
+"point_of_contact": {
+"full_name": "John Doe",
+"email": "john@example.com"
+},
+"company_info": {
+"company_name": "Tech Innovations Ltd",
+"designation": "ltd"
+},
+"countries_of_interest": {
+"jurisdiction_of_operation": "us"
+},
+"shares_structure": {
+"number_of_shares": 1000,
+"all_shares_issued": true,
+"value_per_share": 1.00
+},
+"shareholders": [...],
+"beneficial_owners": [...],
+"directors": [...]
+}'
+\`\`\`
+
+### 2. Auto-save Form Data
+
+\`\`\`bash
+curl -X POST http://localhost:8000/api/v1/company-formation/auto-save \
+ -H "Content-Type: application/json" \
+ -d '{
+"session_id": "session_123456789",
+"step": 1,
+"data": {
+"pointOfContact": {
+"fullName": "John Doe",
+"email": "john@example.com"
+}
+}
+}'
+\`\`\`
+
+### 3. Get Application Status
+
+\`\`\`bash
+curl -X GET http://localhost:8000/api/v1/company-formation/status/BVI-2024-ABC123 \
+ -H "Accept: application/json"
+\`\`\`
+
+### 4. Health Check
+
+\`\`\`bash
+curl -X GET http://localhost:8000/api/v1/health \
+ -H "Accept: application/json"
+\`\`\`
+
+## 🗄️ Database Schema
+
+### `company_formations` Table
+
+| Column                     | Type      | Description                               |
+| -------------------------- | --------- | ----------------------------------------- |
+| `id`                       | bigint    | Primary key                               |
+| `reference_number`         | string    | Unique application reference              |
+| `status`                   | enum      | Application status                        |
+| `company_name`             | string    | Company name                              |
+| `alternative_company_name` | string    | Alternative name (nullable)               |
+| `designation`              | enum      | Company designation (ltd, inc, corp, llc) |
+| `point_of_contact`         | json      | Contact person details                    |
+| `company_info`             | json      | Company information                       |
+| `countries_of_interest`    | json      | Jurisdiction details                      |
+| `shares_structure`         | json      | Share structure details                   |
+| `shareholders`             | json      | Shareholders array                        |
+| `beneficial_owners`        | json      | Beneficial owners array                   |
+| `directors`                | json      | Directors array                           |
+| `submitted_at`             | timestamp | Submission timestamp                      |
+| `processed_at`             | timestamp | Processing timestamp                      |
+| `notes`                    | text      | Admin notes                               |
+| `created_at`               | timestamp | Creation timestamp                        |
+| `updated_at`               | timestamp | Last update timestamp                     |
+| `deleted_at`               | timestamp | Soft delete timestamp                     |
+
+### `form_sessions` Table
+
+| Column          | Type      | Description               |
+| --------------- | --------- | ------------------------- |
+| `id`            | bigint    | Primary key               |
+| `session_id`    | string    | Unique session identifier |
+| `current_step`  | integer   | Current form step (1-4)   |
+| `form_data`     | json      | Form data snapshot        |
+| `last_saved_at` | timestamp | Last save timestamp       |
+| `created_at`    | timestamp | Creation timestamp        |
+| `updated_at`    | timestamp | Last update timestamp     |
+
+## TODO
+
+-   clean-up command for sessions form
